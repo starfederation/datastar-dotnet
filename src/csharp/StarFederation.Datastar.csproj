@@ -2,34 +2,49 @@
 
     <PropertyGroup>
         <AssemblyName>StarFederation.Datastar</AssemblyName>
+        <Version>1.0.0</Version>
+        <RootNamespace>StarFederation.Datastar</RootNamespace>
+        <Nullable>enable</Nullable>
+        <Title>StarFederation.Datastar</Title>
         <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <RootNamespace>StarFederation.Datastar</RootNamespace>
-        <Version>1.0.0</Version>
-        <Title>StarFederation.Datastar</Title>
+
+        <!-- General info -->
+        <Description>SDK for Datastar ServerSentEvents and Signals</Description>
         <Authors>Greg Holden and contributors</Authors>
-        <Description>SDK for ServerSentEvents and convenience methods for Datastar</Description>
-        <PackageProjectUrl>https://github.com/starfederation/datastar</PackageProjectUrl>
+        <NeutralLanguage>en</NeutralLanguage>
+
+        <!-- Build config -->
+        <DebugType>embedded</DebugType>
+        <OutputType>Library</OutputType>
+
+        <!-- NuGet config -->
+        <PackageId>StarFederation.Datastar</PackageId>
+        <PackageVersion>1.0.1</PackageVersion>
+        <PackageTags>datastar;datastar-sharp;fsharp;functional;asp.net core;asp.net;.net core;routing;web;csharp</PackageTags>
+        <PackageProjectUrl>https://github.com/starfederation/datastar-dotnet</PackageProjectUrl>
         <PackageIcon>datastar_icon.png</PackageIcon>
-        <RepositoryUrl>https://github.com/starfederation/datastar</RepositoryUrl>
-        <PackageTags>datastar;datastar-sharp;asp.net core;asp.net;.net core;routing;web;csharp</PackageTags>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-        <PackageLicenseUrl>https://github.com/starfederation/datastar/blob/develop/LICENSE.md</PackageLicenseUrl>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/starfederation/datastar-dotnet</RepositoryUrl>
+
+        <!-- SourceLink settings -->
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <IncludeSymbols>true</IncludeSymbols>
     </PropertyGroup>
 
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App"/>
     </ItemGroup>
-    
+
     <ItemGroup>
-      <None Include="..\..\assets\datastar_icon.png">
-        <Pack>True</Pack>
-        <PackagePath></PackagePath>
-        <Link>datastar_icon.png</Link>
-      </None>
+        <None Include="..\..\assets\datastar_icon.png" Visible="false" Pack="true" PackagePath=""/>
+        <None Include="..\..\README.md" Pack="true" PackagePath=""/>
+        <None Include="..\..\LICENSE.md" Visible="false" Pack="true" PackagePath=""/>
     </ItemGroup>
-    
+
     <ItemGroup>
       <ProjectReference Include="..\fsharp\StarFederation.Datastar.FSharp.fsproj" />
     </ItemGroup>

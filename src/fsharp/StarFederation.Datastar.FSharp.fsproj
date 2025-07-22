@@ -1,14 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
+
     <PropertyGroup>
         <AssemblyName>StarFederation.Datastar.FSharp</AssemblyName>
         <Version>1.0.0</Version>
         <RootNamespace>StarFederation.Datastar.FSharp</RootNamespace>
         <Nullable>disabled</Nullable>
+        <Title>StarFederation.Datastar.FSharp</Title>
+        <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
 
         <!-- General info -->
-        <Description>SDK for ServerSentEvents and convenience methods for Datastar</Description>
+        <Description>SDK for Datastar ServerSentEvents and Signals</Description>
         <Authors>Greg Holden and contributors</Authors>
-        <NeutralLanguage>en-CA</NeutralLanguage>
+        <NeutralLanguage>en</NeutralLanguage>
 
         <!-- Build config -->
         <DebugType>embedded</DebugType>
@@ -19,22 +22,19 @@
 
         <!-- NuGet config -->
         <PackageId>StarFederation.Datastar.FSharp</PackageId>
-        <PackageTags>datastar;datastar-sharp;fsharp;functional;asp.net core;asp.net;.net core;routing;web;csharp</PackageTags>
-        <PackageProjectUrl>https://github.com/starfederation/datastar</PackageProjectUrl>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageVersion>1.0.0</PackageVersion>
+        <PackageTags>datastar;datastar-sharp;fsharp;functional;asp.net core;asp.net;.net core;routing;web</PackageTags>
+        <PackageProjectUrl>https://github.com/starfederation/datastar-dotnet</PackageProjectUrl>
         <PackageIcon>datastar_icon.png</PackageIcon>
         <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <RepositoryType>git</RepositoryType>
-        <RepositoryUrl>https://github.com/starfederation/datastar</RepositoryUrl>
+        <RepositoryUrl>https://github.com/starfederation/datastar-dotnet</RepositoryUrl>
 
         <!-- SourceLink settings -->
-        <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <IncludeSymbols>true</IncludeSymbols>
-        <Title>StarFederation.Datastar.FSharp</Title>
-        <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
-        <PackageLicenseUrl>https://github.com/starfederation/datastar/blob/develop/LICENSE.md</PackageLicenseUrl>
     </PropertyGroup>
 
     <ItemGroup>
@@ -42,14 +42,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="..\..\assets\datastar_icon.png">
-          <Pack>true</Pack>
-          <Link>datastar_icon.png</Link>
-          <PackagePath>$(PackageIconUrl)</PackagePath>
-        </None>
-        <Content Include="..\..\README.md">
-          <Link>README.md</Link>
-        </Content>
+        <None Include="..\..\assets\datastar_icon.png" Visible="false" Pack="true" PackagePath="" />
+        <None Include="..\..\README.md" Pack="true" PackagePath="" />
+        <None Include="..\..\LICENSE.md" Visible="false" Pack="true" PackagePath="" />
         <Compile Include="Consts.fs" />
         <Compile Include="Utility.fs" />
         <Compile Include="Types.fs" />
