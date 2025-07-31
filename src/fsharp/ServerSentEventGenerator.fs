@@ -94,8 +94,8 @@ type ServerSentEventGenerator(httpContextAccessor:IHttpContextAccessor) =
         writer |> ServerSentEvent.sendId options.EventId
         writer |> ServerSentEvent.sendRetry options.Retry
 
-        //writer |> ServerSentEvent.sendDataLine $"{Consts.DatastarDatalineSelector} {Consts.DatastarExecuteScriptSelector}"
-        //writer |> ServerSentEvent.sendDataLine $"{Consts.DatastarDatalineMode} {Consts.ElementPatchMode.toString ElementPatchMode.Append}"
+        writer |> ServerSentEvent.sendDataLine $"{Consts.DatastarDatalineSelector} {Consts.DatastarExecuteScriptSelector}"
+        writer |> ServerSentEvent.sendDataLine $"{Consts.DatastarDatalineMode} {Consts.ElementPatchMode.toString ElementPatchMode.Append}"
 
         writer |> ServerSentEvent.sendDataLine $"{Consts.DatastarDatalineElements} <script>"
         String.splitLinesToSegments script
