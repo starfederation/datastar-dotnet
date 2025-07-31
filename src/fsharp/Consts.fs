@@ -51,6 +51,8 @@ module Consts =
     let [<Literal>] DatastarDatalineSignals = "signals"
     let [<Literal>] DatastarDatalineOnlyIfMissing = "onlyIfMissing"
 
+    let [<Literal>] DatastarExecuteScriptSelector = "body"
+
     module ElementPatchMode =
         let inline toString this =
             match this with

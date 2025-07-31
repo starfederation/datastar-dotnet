@@ -1,6 +1,6 @@
+using StarFederation.Datastar.DependencyInjection;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
-using StarFederation.Datastar.DependencyInjection;
 
 namespace HelloWorld;
 
@@ -37,6 +37,11 @@ public class Program
                 }
             }
             await datastarService.PatchElementsAsync($"""<div id="message">{Message}</div>""");
+        });
+
+        app.MapGet("/execute-script", async (IDatastarService datastarService) =>
+        {
+            await datastarService.ExecuteScriptAsync("alert('hello from the server');");
         });
 
         app.Run();
