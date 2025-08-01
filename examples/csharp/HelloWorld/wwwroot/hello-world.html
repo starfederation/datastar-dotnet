@@ -9,45 +9,67 @@
 </head>
 <body class="bg-white dark:bg-gray-900 text-lg  my-16">
 
-<div class="mx-auto max-w-xl">
+<div class="mx-auto max-w-3xl text-center" data-signals-signals_message="'Hello, world!'" data-signals-show_patch_element_message="true">
     <div class="my-16 text-8xl font-bold text-transparent" style="background: linear-gradient(to right in oklch, red, orange, yellow, green, blue, blue, violet); background-clip: text">
-        <div id="message">Hello, world!</div>
+        <div data-show="$show_patch_element_message"><span id="message">Hello, World!</span></div>
+        <div data-show="!$show_patch_element_message"><span data-text="$signals_message"></span></div>
     </div>
 </div>
 
-<div class="flex" style="justify-content: space-around;">
+<div class="flex flex-wrap gap-4" style="justify-content:space-around;">
 
-    <div class="bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 rounded-lg px-6 py-8 ring shadow-xl ring-gray-900/5 space-y-2 max-w-1/2" data-signals-delay="400">
+    <!-- ELEMENT PATCHES STREAM -->
+    <div data-signals-delay="400" class="bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 rounded-lg px-6 py-8 ring shadow-xl ring-gray-900/5 space-y-2 max-w-1/2">
         <div class="flex justify-between items-center">
             <h1 class="text-gray-900 dark:text-white text-3xl font-semibold">
-                Datastar SDK Demo
+                Element Patches Stream
             </h1>
         </div>
         <p class="mt-2">
-            SSE events will be streamed from the backend to the frontend.
+            Elements are patched by the server.
         </p>
         <div class="space-x-2">
-            <label for="delay">
+            <label for="delay2">
                 Delay in milliseconds
             </label>
-            <input class="w-36 rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-sky-500 focus:outline focus:outline-sky-500 dark:disabled:border-gray-700 dark:disabled:bg-gray-800/20" data-bind-delay id="delay" min="0" step="100" type="number"/>
+            <input data-bind-delay id="delay2" class="w-36 rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-sky-500 focus:outline focus:outline-sky-500 dark:disabled:border-gray-700 dark:disabled:bg-gray-800/20" min="0" step="100" type="number"/>
         </div>
-        <button class="rounded-md bg-sky-500 px-5 py-2.5 leading-5 font-semibold text-white hover:bg-sky-700 hover:text-gray-100 cursor-pointer" data-on-click="@get('/hello-world')">
+        <button data-on-click="@get('/stream-element-patches')" class="rounded-md bg-sky-500 px-5 py-2.5 leading-5 font-semibold text-white hover:bg-sky-700 hover:text-gray-100 cursor-pointer">
             Start
         </button>
     </div>
 
-    <div class="bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 rounded-lg px-6 py-8 ring shadow-xl ring-gray-900/5 space-y-2 max-w-1/2">
+    <!-- SIGNAL PATCHES STREAM -->
+    <div data-signals-delay="400" class="bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 rounded-lg px-6 py-8 ring shadow-xl ring-gray-900/5 space-y-2 max-w-1/2">
         <div class="flex justify-between items-center">
             <h1 class="text-gray-900 dark:text-white text-3xl font-semibold">
-                Datastar ExecuteScript Demo
+                Signal Patches Stream
             </h1>
         </div>
         <p class="mt-2">
-            A JS "alert" script will be streamed from the backend<br>and immediately executed.
+            Signals are patched by the server.
+        </p>
+        <div class="space-x-2">
+            <label for="delay1">Delay in milliseconds</label>
+            <input data-bind-delay id="delay1" min="0" step="100" type="number" class="w-36 rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-sky-500 focus:outline focus:outline-sky-500 dark:disabled:border-gray-700 dark:disabled:bg-gray-800/20"/>
+        </div>
+        <button data-on-click="@get('/stream-signal-patches')" class="rounded-md bg-sky-500 px-5 py-2.5 leading-5 font-semibold text-white hover:bg-sky-700 hover:text-gray-100 cursor-pointer">
+            Start
+        </button>
+    </div>
+
+    <!-- EXECUTE SCRIPT -->
+    <div class="bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 rounded-lg px-6 py-8 ring shadow-xl ring-gray-900/5 space-y-2 max-w-1/2">
+        <div class="flex justify-between items-center">
+            <h1 class="text-gray-900 dark:text-white text-3xl font-semibold">
+                Execute Script
+            </h1>
+        </div>
+        <p class="mt-2">
+            A JS "alert" script will be streamed from the server<br>and immediately executed.
         </p>
         <button class="rounded-md bg-sky-500 px-5 py-2.5 leading-5 font-semibold text-white hover:bg-sky-700 hover:text-gray-100 cursor-pointer" data-on-click="@get('/execute-script')">
-            Tell the Server to make this page execute an "alert"
+            Execute
         </button>
     </div>
 </div>
