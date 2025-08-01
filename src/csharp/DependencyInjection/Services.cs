@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Microsoft.Extensions.Primitives;
 using Core = StarFederation.Datastar.FSharp;
+
 // ReSharper disable InvalidXmlDocComment
 
 namespace StarFederation.Datastar.DependencyInjection;

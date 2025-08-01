@@ -1,5 +1,6 @@
-using System.Diagnostics;
 using System.Text.Json;
+using Microsoft.FSharp.Collections;
+
 // ReSharper disable PossibleMultipleEnumeration
 
 namespace StarFederation.Datastar;
@@ -63,4 +64,7 @@ internal static class Utilities
 
     public static Tuple<TKey, TValue> AsTuple<TKey, TValue>(this KeyValuePair<TKey, TValue> keyValuePair) => new(keyValuePair.Key, keyValuePair.Value);
     public static Tuple<TKey, TValue> AsTuple<TKey, TValue>(this (TKey, TValue) keyValuePair) => new(keyValuePair.Item1, keyValuePair.Item2);
+
+    public static FSharpList<TType> ToFSharpList<TType>(this IEnumerable<TType> @this)
+        => @this.Aggregate(FSharpList<TType>.Empty, (current, item) => new FSharpList<TType>(item, current));
 }

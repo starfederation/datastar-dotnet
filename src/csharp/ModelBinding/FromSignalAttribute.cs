@@ -4,7 +4,7 @@ using Core = StarFederation.Datastar.FSharp;
 
 namespace StarFederation.Datastar.ModelBinding;
 
-public class DatastarSignalsBindingSource(string path, JsonSerializerOptions? jsonSerializerOptions) : BindingSource(BindingSourceName, BindingSourceName, isGreedy: true, isFromRequest: true)
+public class DatastarSignalsBindingSource(string path, JsonSerializerOptions? jsonSerializerOptions) : BindingSource(BindingSourceName, BindingSourceName, true, true)
 {
     public const string BindingSourceName = "DatastarSignalsSource";
     public string BindingPath { get; } = path;
@@ -23,7 +23,7 @@ public class DatastarSignalsBindingSource(string path, JsonSerializerOptions? js
 [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
 public class FromSignalsAttribute : Attribute, IBindingSourceMetadata
 {
-    public string Path { get; set; } = String.Empty;
+    public string Path { get; set; } = string.Empty;
     public JsonSerializerOptions JsonSerializerOptions { get; set; } = Core.JsonSerializerOptions.SignalsDefault;
     public BindingSource BindingSource => new DatastarSignalsBindingSource(Path, JsonSerializerOptions);
 }

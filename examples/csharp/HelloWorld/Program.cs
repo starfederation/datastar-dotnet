@@ -6,13 +6,6 @@ namespace HelloWorld;
 
 public class Program
 {
-    public record Signals
-    {
-        [JsonPropertyName("delay")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public float? Delay { get; set; } = null;
-    }
-
     public const string Message = "Hello, world!";
 
     public static void Main(string[] args)
@@ -28,7 +21,7 @@ public class Program
             Signals? mySignals = await datastarService.ReadSignalsAsync<Signals>();
             Debug.Assert(mySignals != null, nameof(mySignals) + " != null");
 
-            for (int index = 0; index < Message.Length; ++index)
+            for (var index = 1; index < Message.Length; ++index)
             {
                 await datastarService.PatchElementsAsync($"""<div id="message">{Message[..index]}</div>""");
                 if (!char.IsWhiteSpace(Message[index]))
@@ -36,9 +29,20 @@ public class Program
                     await Task.Delay(TimeSpan.FromMilliseconds(mySignals.Delay.GetValueOrDefault(0)));
                 }
             }
+
             await datastarService.PatchElementsAsync($"""<div id="message">{Message}</div>""");
         });
 
+        app.MapGet("/execute-script", (IDatastarService datastarService) =>
+            datastarService.ExecuteScriptAsync("alert('Hello! from the server 🚀')"));
+
         app.Run();
+    }
+
+    public record Signals
+    {
+        [JsonPropertyName("delay")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public float? Delay { get; set; } = null;
     }
 }

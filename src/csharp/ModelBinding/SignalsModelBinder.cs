@@ -1,8 +1,9 @@
+using System.Net;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
-using StarFederation.Datastar.DependencyInjection;
-using System.Text.Json;
 using Microsoft.Extensions.Logging;
+using StarFederation.Datastar.DependencyInjection;
 
 namespace StarFederation.Datastar.ModelBinding;
 
@@ -64,8 +65,8 @@ public class SignalsModelBinder(ILogger<SignalsModelBinder> logger, IDatastarSer
 
     private async ValueTask<JsonDocument> ReadSignalsToJsonDocument(ModelBindingContext bindingContext)
     {
-        return bindingContext.HttpContext.Request.Method == System.Net.WebRequestMethods.Http.Get
-            ? JsonDocument.Parse(await signalsReader.ReadSignalsAsync() ?? String.Empty)
+        return bindingContext.HttpContext.Request.Method == WebRequestMethods.Http.Get
+            ? JsonDocument.Parse(await signalsReader.ReadSignalsAsync() ?? string.Empty)
             : await JsonDocument.ParseAsync(signalsReader.GetSignalsStream());
     }
 }

@@ -1,3 +1,4 @@
+using Microsoft.FSharp.Collections;
 using Microsoft.FSharp.Core;
 using Core = StarFederation.Datastar.FSharp;
 
@@ -51,7 +52,8 @@ public class PatchSignalsOptions
     private static Core.PatchSignalsOptions ToFSharp(PatchSignalsOptions options) => new(
         options.OnlyIfMissing,
         options.EventId ?? FSharpValueOption<string>.ValueNone,
-        options.Retry);
+        options.Retry
+    );
 }
 
 public class RemoveElementOptions
@@ -63,21 +65,29 @@ public class RemoveElementOptions
     public static implicit operator Core.RemoveElementOptions(RemoveElementOptions options) => ToFSharp(options);
     public static implicit operator FSharpValueOption<Core.RemoveElementOptions>(RemoveElementOptions options) => ToFSharp(options);
 
-    private static Core.RemoveElementOptions ToFSharp(RemoveElementOptions options) => new(
-        options.UseViewTransition,
-        options.EventId ?? FSharpValueOption<string>.ValueNone,
-        options.Retry);
+    private static Core.RemoveElementOptions ToFSharp(RemoveElementOptions options)
+    {
+        return new Core.RemoveElementOptions(
+            options.UseViewTransition,
+            options.EventId ?? FSharpValueOption<string>.ValueNone,
+            options.Retry);
+    }
 }
 
 public class ExecuteScriptOptions
 {
     public string? EventId { get; init; } = null;
     public TimeSpan Retry { get; init; } = Consts.DefaultSseRetryDuration;
+    public bool AutoRemove { get; init; } = Consts.DefaultElementsUseViewTransitions;
+    public KeyValuePair<string, string>[] Attributes { get; init; } = [];
 
     public static implicit operator Core.ExecuteScriptOptions(ExecuteScriptOptions options) => ToFSharp(options);
     public static implicit operator FSharpValueOption<Core.ExecuteScriptOptions>(ExecuteScriptOptions options) => ToFSharp(options);
 
     private static Core.ExecuteScriptOptions ToFSharp(ExecuteScriptOptions options) => new(
         options.EventId ?? FSharpValueOption<string>.ValueNone,
-        options.Retry);
+        options.Retry,
+        options.AutoRemove,
+        options.Attributes.ToFSharpList()
+    );
 }
