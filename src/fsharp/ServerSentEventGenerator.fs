@@ -138,7 +138,7 @@ type ServerSentEventGenerator(httpContextAccessor:IHttpContextAccessor) =
         | _ -> httpRequest.Body
 
     static member ReadSignalsAsync(httpRequest:HttpRequest, cancellationToken:CancellationToken) =
-        task {
+        backgroundTask {
             match httpRequest.Method with
             | System.Net.WebRequestMethods.Http.Get ->
                 match httpRequest.Query.TryGetValue(Consts.DatastarKey) with
@@ -176,12 +176,12 @@ type ServerSentEventGenerator(httpContextAccessor:IHttpContextAccessor) =
         _startResponseTask
 
     member private this.SendEventAsync(sendEventTask:unit -> Task, cancellationToken:CancellationToken) =
-        task {
+        backgroundTask {
             _eventQueue.Enqueue(sendEventTask)
             do!
                 if _startResponseTask <> null
                 then _startResponseTask
-                else ServerSentEventGenerator.StartServerEventStreamAsync(httpResponse, Seq.empty, cancellationToken)
+                else this.StartServerEventStreamAsync(Seq.empty, cancellationToken)
             let (_, sendEventTask') = _eventQueue.TryDequeue()
             return! sendEventTask' ()
         }
@@ -244,40 +244,40 @@ type ServerSentEventGenerator(httpContextAccessor:IHttpContextAccessor) =
         ServerSentEventGenerator.ReadSignalsAsync<'T>(httpRequest, JsonSerializerOptions.SignalsDefault, httpRequest.HttpContext.RequestAborted)
 
     member this.StartServerEventStreamAsync(additionalHeaders) =
-        ServerSentEventGenerator.StartServerEventStreamAsync(httpResponse, additionalHeaders, defaultCancellationToken)
+        this.StartServerEventStreamAsync(additionalHeaders, defaultCancellationToken)
     member this.StartServerEventStreamAsync(cancellationToken: CancellationToken) =
-        ServerSentEventGenerator.StartServerEventStreamAsync(httpResponse, Seq.empty, cancellationToken)
+        this.StartServerEventStreamAsync(Seq.empty, cancellationToken)
     member this.StartServerEventStreamAsync() =
-        ServerSentEventGenerator.StartServerEventStreamAsync(httpResponse, Seq.empty, defaultCancellationToken)
+        this.StartServerEventStreamAsync(Seq.empty, defaultCancellationToken)
     member this.PatchElementsAsync(elements, options) =
-        ServerSentEventGenerator.PatchElementsAsync(httpResponse, elements, options, defaultCancellationToken)
+        this.PatchElementsAsync(elements, options, defaultCancellationToken)
     member this.PatchElementsAsync(elements, cancellationToken) =
-        ServerSentEventGenerator.PatchElementsAsync(httpResponse, elements, PatchElementsOptions.Defaults, cancellationToken)
+        this.PatchElementsAsync(elements, PatchElementsOptions.Defaults, cancellationToken)
     member this.PatchElementsAsync(elements) =
-        ServerSentEventGenerator.PatchElementsAsync(httpResponse, elements, PatchElementsOptions.Defaults, defaultCancellationToken)
+        this.PatchElementsAsync(elements, PatchElementsOptions.Defaults, defaultCancellationToken)
     member this.RemoveElementAsync(selector, options) =
-        ServerSentEventGenerator.RemoveElementAsync(httpResponse, selector, options, defaultCancellationToken)
+        this.RemoveElementAsync(selector, options, defaultCancellationToken)
     member this.RemoveElementAsync(selector, cancellationToken) =
-        ServerSentEventGenerator.RemoveElementAsync(httpResponse, selector, RemoveElementOptions.Defaults, cancellationToken)
+        this.RemoveElementAsync(selector, RemoveElementOptions.Defaults, cancellationToken)
     member this.RemoveElementAsync(selector) =
-        ServerSentEventGenerator.RemoveElementAsync(httpResponse, selector, RemoveElementOptions.Defaults, defaultCancellationToken)
+        this.RemoveElementAsync(selector, RemoveElementOptions.Defaults, defaultCancellationToken)
     member this.PatchSignalsAsync(signals, options) =
-        ServerSentEventGenerator.PatchSignalsAsync(httpResponse, signals, options, defaultCancellationToken)
+        this.PatchSignalsAsync(signals, options, defaultCancellationToken)
     member this.PatchSignalsAsync(signals, cancellationToken) =
-        ServerSentEventGenerator.PatchSignalsAsync(httpResponse, signals, PatchSignalsOptions.Defaults, cancellationToken)
+        this.PatchSignalsAsync(signals, PatchSignalsOptions.Defaults, cancellationToken)
     member this.PatchSignalsAsync(signals) =
-        ServerSentEventGenerator.PatchSignalsAsync(httpResponse, signals, PatchSignalsOptions.Defaults, defaultCancellationToken)
+        this.PatchSignalsAsync(signals, PatchSignalsOptions.Defaults, defaultCancellationToken)
     member this.ExecuteScriptAsync(script, options) =
-        ServerSentEventGenerator.ExecuteScriptAsync(httpResponse, script, options, defaultCancellationToken)
+        this.ExecuteScriptAsync(script, options, defaultCancellationToken)
     member this.ExecuteScriptAsync(script, cancellationToken) =
-        ServerSentEventGenerator.ExecuteScriptAsync(httpResponse, script, ExecuteScriptOptions.Defaults, cancellationToken)
+        this.ExecuteScriptAsync(script, ExecuteScriptOptions.Defaults, cancellationToken)
     member this.ExecuteScriptAsync(script) =
-        ServerSentEventGenerator.ExecuteScriptAsync(httpResponse, script, ExecuteScriptOptions.Defaults, defaultCancellationToken)
+        this.ExecuteScriptAsync(script, ExecuteScriptOptions.Defaults, defaultCancellationToken)
     member this.ReadSignalsAsync() : Task<Signals> =
-        ServerSentEventGenerator.ReadSignalsAsync(httpRequest, httpRequest.HttpContext.RequestAborted)
+        this.ReadSignalsAsync(httpRequest.HttpContext.RequestAborted)
     member this.ReadSignalsAsync<'T>(jsonSerializerOptions) =
-        ServerSentEventGenerator.ReadSignalsAsync<'T>(httpRequest, jsonSerializerOptions, httpRequest.HttpContext.RequestAborted)
+        this.ReadSignalsAsync<'T>(jsonSerializerOptions, httpRequest.HttpContext.RequestAborted)
     member this.ReadSignalsAsync<'T>(cancellationToken) =
-        ServerSentEventGenerator.ReadSignalsAsync<'T>(httpRequest, JsonSerializerOptions.SignalsDefault, cancellationToken)
+        this.ReadSignalsAsync<'T>(JsonSerializerOptions.SignalsDefault, cancellationToken)
     member this.ReadSignalsAsync<'T>() =
-        ServerSentEventGenerator.ReadSignalsAsync<'T>(httpRequest, JsonSerializerOptions.SignalsDefault, httpRequest.HttpContext.RequestAborted)
+        this.ReadSignalsAsync<'T>(JsonSerializerOptions.SignalsDefault, httpRequest.HttpContext.RequestAborted)
