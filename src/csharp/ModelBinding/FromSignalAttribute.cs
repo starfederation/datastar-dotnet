@@ -1,6 +1,5 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Core = StarFederation.Datastar.FSharp;
 
 namespace StarFederation.Datastar.ModelBinding;
 
@@ -8,7 +7,7 @@ public class DatastarSignalsBindingSource(string path, JsonSerializerOptions? js
 {
     public const string BindingSourceName = "DatastarSignalsSource";
     public string BindingPath { get; } = path;
-    public JsonSerializerOptions JsonSerializerOptions { get; } = jsonSerializerOptions ?? Core.JsonSerializerOptions.SignalsDefault;
+    public JsonSerializerOptions? JsonSerializerOptions { get; } = jsonSerializerOptions;
 }
 
 /// <summary>
@@ -24,6 +23,6 @@ public class DatastarSignalsBindingSource(string path, JsonSerializerOptions? js
 public class FromSignalsAttribute : Attribute, IBindingSourceMetadata
 {
     public string Path { get; set; } = string.Empty;
-    public JsonSerializerOptions JsonSerializerOptions { get; set; } = Core.JsonSerializerOptions.SignalsDefault;
+    public JsonSerializerOptions? JsonSerializerOptions { get; set; }
     public BindingSource BindingSource => new DatastarSignalsBindingSource(Path, JsonSerializerOptions);
 }

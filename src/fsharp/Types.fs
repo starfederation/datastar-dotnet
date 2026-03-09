@@ -67,8 +67,7 @@ type ExecuteScriptOptions =
 
 module JsonSerializerOptions =
     let SignalsDefault =
-        let options = JsonSerializerOptions()
-        options.PropertyNameCaseInsensitive <- true
+        let options = JsonSerializerOptions(JsonSerializerDefaults.Web)
         options
 
 module Signals =

@@ -3,15 +3,17 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using StarFederation.Datastar.DependencyInjection;
 
 namespace StarFederation.Datastar.ModelBinding;
 
-public class SignalsModelBinder(ILogger<SignalsModelBinder> logger, IDatastarService signalsReader) : IModelBinder
+public class SignalsModelBinder(ILogger<SignalsModelBinder> logger, IDatastarService signalsReader, IOptions<DatastarJsonOptions> datastarJsonOptions) : IModelBinder
 {
     public async Task BindModelAsync(ModelBindingContext bindingContext)
     {
         DatastarSignalsBindingSource signalBindingSource = (bindingContext.BindingSource as DatastarSignalsBindingSource)!;
+        JsonSerializerOptions jsonSerializerOptions = signalBindingSource.JsonSerializerOptions ?? datastarJsonOptions.Value.SignalsJsonSerializerOptions ?? FSharp.JsonSerializerOptions.SignalsDefault;
 
         // Get signals into a JsonDocument
         JsonDocument doc;
@@ -38,7 +40,7 @@ public class SignalsModelBinder(ILogger<SignalsModelBinder> logger, IDatastarSer
                 // SignalsPath: use the name of the field in the method or the one passed in the attribute
                 string signalsPath = String.IsNullOrEmpty(signalBindingSource.BindingPath) ? bindingContext.FieldName : signalBindingSource.BindingPath;
 
-                object? value = doc.RootElement.GetValueFromPath(signalsPath, bindingContext.ModelType, signalBindingSource.JsonSerializerOptions)
+                object? value = doc.RootElement.GetValueFromPath(signalsPath, bindingContext.ModelType, jsonSerializerOptions)
                                 ?? (bindingContext.ModelType.IsValueType ? Activator.CreateInstance(bindingContext.ModelType) : null);
                 bindingContext.Result = ModelBindingResult.Success(value);
             }
@@ -47,11 +49,11 @@ public class SignalsModelBinder(ILogger<SignalsModelBinder> logger, IDatastarSer
                 object? value;
                 if (String.IsNullOrEmpty(signalBindingSource.BindingPath))
                 {
-                    value = doc.Deserialize(bindingContext.ModelType, signalBindingSource.JsonSerializerOptions);
+                    value = doc.Deserialize(bindingContext.ModelType, jsonSerializerOptions);
                 }
                 else
                 {
-                    value = doc.RootElement.GetValueFromPath(signalBindingSource.BindingPath, bindingContext.ModelType, signalBindingSource.JsonSerializerOptions);
+                    value = doc.RootElement.GetValueFromPath(signalBindingSource.BindingPath, bindingContext.ModelType, jsonSerializerOptions);
                 }
 
                 bindingContext.Result = ModelBindingResult.Success(value);

@@ -3,14 +3,14 @@
 <head>
     <title>Datastar SDK Demo</title>
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    <script src="https://cdn.jsdelivr.net/gh/starfederation/datastar@1.0.0-RC.6/bundles/datastar.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/gh/starfederation/datastar@1.0.0-RC.8/bundles/datastar.js" type="module"></script>
 </head>
 <body class="bg-white dark:bg-gray-900 text-lg  my-16">
 
-<div class="mx-auto max-w-3xl text-center" data-signals:signals_message="'Hello, world!'" data-signals:show_patch_element_message="true">
+<div class="mx-auto max-w-3xl text-center" data-signals:signals-message="'Hello, world!'" data-signals:show-patch-element-message="true">
     <div class="my-16 text-8xl font-bold text-transparent" style="background: linear-gradient(to right in oklch, red, orange, yellow, green, blue, blue, violet); background-clip: text">
-        <div data-show="$show_patch_element_message"><span id="message">Hello, World!</span></div>
-        <div data-show="!$show_patch_element_message"><span data-text="$signals_message"></span></div>
+        <div data-show="$showPatchElementMessage"><span id="message">Hello, World!</span></div>
+        <div data-show="!$showPatchElementMessage"><span data-text="$signalsMessage"></span></div>
     </div>
 </div>
 

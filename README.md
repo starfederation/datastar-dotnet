@@ -31,7 +31,12 @@ using System.Text.Json.Serialization;
 // add as an ASP Service
 //  allows injection of IDatastarService, to respond to a request with a Datastar friendly ServerSentEvent
 //  and to read the signals sent by the client
-builder.Services.AddDatastar();
+builder.Services
+    .AddDatastar()
+    .AddJsonOptions(options =>
+    {
+        options.Converters.Add(new JsonStringEnumConverter());
+    });
 
 // displayDate - patching an element
 app.MapGet("/displayDate", async (IDatastarService datastarService) =>
@@ -44,11 +49,9 @@ app.MapGet("/displayDate", async (IDatastarService datastarService) =>
 app.MapGet("/removeDate", async (IDatastarService datastarService) => { await datastarService.RemoveElementAsync("#date"); });
 
 public record MySignals {
-    [JsonPropertyName("input")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Input { get; init; } = null;
 
-    [JsonPropertyName("output")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Output { get; init; } = null;
 
@@ -118,13 +121,13 @@ module Program =
 
 ```csharp
 public class MySignals {
-    public string myString { get; set; } = "";
-    public int myInt { get; set; } = 0;
-    public InnerSignals myInner { get; set; } = new();
+    public string MyString { get; set; } = "";
+    public int MyInt { get; set; } = 0;
+    public InnerSignals MyInner { get; set; } = new();
 
     public class InnerSignals {
-        public string myInnerString { get; set; } = "";
-        public int myInnerInt { get; set; } = 0;
+        public string MyInnerString { get; set; } = "";
+        public int MyInnerInt { get; set; } = 0;
     }
 }
 
