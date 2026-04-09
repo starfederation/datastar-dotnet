@@ -69,7 +69,7 @@ public class SignalsModelBinder(ILogger<SignalsModelBinder> logger, IDatastarSer
     {
         var method = bindingContext.HttpContext.Request.Method;
 
-        return method == WebRequestMethods.Http.Get || method == WebRequestMethods.Http.Delete
+        return method == WebRequestMethods.Http.Get || method == HttpMethod.Delete.Method
             ? JsonDocument.Parse(await signalsReader.ReadSignalsAsync() ?? string.Empty)
             : await JsonDocument.ParseAsync(signalsReader.GetSignalsStream());
     }

@@ -134,8 +134,7 @@ type ServerSentEventGenerator(httpContextAccessor:IHttpContextAccessor) =
 
     static member GetSignalsStream(httpRequest:HttpRequest) =
         match httpRequest.Method with
-        | System.Net.WebRequestMethods.Http.Get
-        | System.Net.WebRequestMethods.Http.Delete ->
+        | method when method = System.Net.WebRequestMethods.Http.Get || method = System.Net.Http.HttpMethod.Delete.Method ->
             match httpRequest.Query.TryGetValue(Consts.DatastarKey) with
             | true, stringValues when stringValues.Count > 0 -> (new MemoryStream(Encoding.UTF8.GetBytes(stringValues[0])) :> Stream)
             | _ -> Stream.Null
@@ -144,8 +143,7 @@ type ServerSentEventGenerator(httpContextAccessor:IHttpContextAccessor) =
     static member ReadSignalsAsync(httpRequest:HttpRequest, cancellationToken:CancellationToken) =
         backgroundTask {
             match httpRequest.Method with
-            | System.Net.WebRequestMethods.Http.Get
-            | System.Net.WebRequestMethods.Http.Delete ->
+            | method when method = System.Net.WebRequestMethods.Http.Get || method = System.Net.Http.HttpMethod.Delete.Method ->
                 match httpRequest.Query.TryGetValue(Consts.DatastarKey) with
                 | true, stringValues when stringValues.Count > 0 -> return stringValues[0]
                 | _ -> return Signals.empty
@@ -161,8 +159,7 @@ type ServerSentEventGenerator(httpContextAccessor:IHttpContextAccessor) =
         task {
             try
                 match httpRequest.Method with
-                | System.Net.WebRequestMethods.Http.Get
-                | System.Net.WebRequestMethods.Http.Delete ->
+                | method when method = System.Net.WebRequestMethods.Http.Get || method = System.Net.Http.HttpMethod.Delete.Method ->
                     match httpRequest.Query.TryGetValue(Consts.DatastarKey) with
                     | true, stringValues when stringValues.Count > 0 ->
                         return ValueSome (JsonSerializer.Deserialize<'T>(stringValues[0], jsonSerializerOptions))
