@@ -22,7 +22,7 @@
 
         <!-- NuGet config -->
         <PackageId>StarFederation.Datastar.FSharp</PackageId>
-        <PackageVersion>1.2.1</PackageVersion>
+        <PackageVersion>1.3</PackageVersion>
         <PackageTags>datastar;datastar-sharp;fsharp;functional;asp.net core;asp.net;.net core;routing;web</PackageTags>
         <PackageProjectUrl>https://github.com/starfederation/datastar-dotnet</PackageProjectUrl>
         <PackageIcon>datastar_icon.png</PackageIcon>
