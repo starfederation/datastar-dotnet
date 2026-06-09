@@ -9,6 +9,7 @@ public class PatchElementsOptions
     public string? Selector { get; init; } = null;
     public ElementPatchMode PatchMode { get; init; } = Consts.DefaultElementPatchMode;
     public bool UseViewTransition { get; init; } = Consts.DefaultElementsUseViewTransitions;
+    public string? ViewTransitionSelector { get; init; } = null;
     public PatchElementNamespace Namespace { get; init; } = PatchElementNamespace.Html;
     public string? EventId { get; init; } = null;
     public TimeSpan Retry { get; init; } = Consts.DefaultSseRetryDuration;
@@ -22,6 +23,7 @@ public class PatchElementsOptions
             options.Selector ?? FSharpValueOption<string>.ValueNone,
             From(options.PatchMode),
             options.UseViewTransition,
+            options.ViewTransitionSelector ?? FSharpValueOption<string>.ValueNone,
             FromNs(options.Namespace),
             options.EventId ?? FSharpValueOption<string>.ValueNone,
             options.Retry

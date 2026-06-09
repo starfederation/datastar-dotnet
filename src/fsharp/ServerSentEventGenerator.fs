@@ -53,6 +53,9 @@ type ServerSentEventGenerator(httpContextAccessor:IHttpContextAccessor) =
         if options.UseViewTransition <> Consts.DefaultElementsUseViewTransitions then
             writer |> ServerSentEvent.sendDataBytesLine Bytes.DatalineUseViewTransition (if options.UseViewTransition then Bytes.bTrue else Bytes.bFalse)
 
+        if options.UseViewTransition then
+            options.ViewTransitionSelector |> ValueOption.iter (fun sel -> writer |> ServerSentEvent.sendDataStringLine Bytes.DatalineViewTransitionSelector sel)
+
         if options.Namespace <> Consts.DefaultPatchElementNamespace then
             writer |> ServerSentEvent.sendDataBytesLine Bytes.DatalineNamespace (options.Namespace |> Bytes.PatchElementNamespace.toBytes)
 
